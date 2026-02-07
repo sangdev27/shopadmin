@@ -1,0 +1,7 @@
+{
+  "routes": [
+    { "src": "/api/(.*)", "dest": "https://YOUR_BACKEND_DOMAIN.vercel.app/api/$1" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
