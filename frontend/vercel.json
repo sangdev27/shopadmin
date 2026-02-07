@@ -1,6 +1,6 @@
 {
   "routes": [
-    { "src": "/api/(.*)", "dest": "https://YOUR_BACKEND_DOMAIN.vercel.app/api/$1" },
+    { "src": "/api/(.*)", "dest": "https://shopadmin-5kh4.onrender.com/api/$1" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
