@@ -29,6 +29,7 @@ class APIClient {
         const url = this.baseURL + endpoint;
         const config = {
             ...options,
+            credentials: 'include',
             headers: {
                 ...this.getHeaders(),
                 ...options.headers
@@ -85,7 +86,8 @@ class APIClient {
         const response = await fetch(this.baseURL + endpoint, {
             method: 'POST',
             headers,
-            body: formData
+            body: formData,
+            credentials: 'include'
         });
 
         return response.json();
@@ -96,6 +98,7 @@ class APIClient {
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', this.baseURL + endpoint, true);
+            xhr.withCredentials = true;
             if (token) {
                 xhr.setRequestHeader('Authorization', `Bearer ${token}`);
             }
