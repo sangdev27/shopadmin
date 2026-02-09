@@ -5,6 +5,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
@@ -12,7 +13,11 @@ const app = express();
 // ============================================
 // MIDDLEWARE
 // ============================================
-app.use(cors());
+app.use(cors({
+    origin: ['https://shopadmin-vert.vercel.app', 'http://localhost:3000'],
+    credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
