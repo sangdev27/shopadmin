@@ -12,15 +12,20 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 async function authenticate(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
+        let token = null;
         
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.substring(7);
+        } else if (req.cookies && req.cookies.token) {
+            token = req.cookies.token;
+        }
+
+        if (!token) {
             return res.status(401).json({
                 success: false,
                 message: 'Unauthorized - No token provided'
             });
         }
-
-        const token = authHeader.substring(7);
         
         // Verify token
         const decoded = jwt.verify(token, JWT_SECRET);
@@ -100,12 +105,17 @@ function authorize(...roles) {
 async function optionalAuth(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
+        let token = null;
         
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return next();
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.substring(7);
+        } else if (req.cookies && req.cookies.token) {
+            token = req.cookies.token;
         }
 
-        const token = authHeader.substring(7);
+        if (!token) {
+            return next();
+        }
         const decoded = jwt.verify(token, JWT_SECRET);
         
         const [users] = await db.execute(
