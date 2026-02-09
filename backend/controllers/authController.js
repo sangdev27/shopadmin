@@ -28,6 +28,13 @@ class AuthController {
 
             const result = await authService.register(email, password, full_name, gender);
 
+            res.cookie('token', result.token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            });
+
             res.status(201).json({
                 success: true,
                 message: 'Registration successful',
@@ -55,6 +62,13 @@ class AuthController {
             }
 
             const result = await authService.login(email, password);
+
+            res.cookie('token', result.token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            });
 
             res.json({
                 success: true,
@@ -143,6 +157,7 @@ class AuthController {
 
     // POST /api/auth/logout
     async logout(req, res) {
+        res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'none' });
         res.json({
             success: true,
             message: 'Logout successful'
