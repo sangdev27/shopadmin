@@ -11,6 +11,7 @@ require('dotenv').config();
 const app = require('./app');
 const db = require('./config/database');
 const { initTelegramBot } = require('./services/telegramBackupService');
+const { ensureDatabase } = require('./utils/initDatabase');
 
 // Serve static files (local dev)
 app.use(express.static(path.join(__dirname, '../frontend')));
@@ -39,39 +40,43 @@ async function createDefaultAdmin() {
 
         if (existing.length === 0) {
             const passwordHash = await bcrypt.hash(adminPassword, 10);
-            
             await db.execute(
                 'INSERT INTO users (email, password_hash, full_name, role) VALUES (?, ?, ?, ?)',
                 [adminEmail, passwordHash, 'System Admin', 'admin']
             );
-
-            console.log('✅ Default admin account created');
+            console.log('Default admin account created');
             console.log(`   Email: ${adminEmail}`);
             console.log(`   Password: ${adminPassword}`);
         } else {
-            console.log('ℹ️  Admin account already exists');
+            console.log('Admin account already exists');
         }
     } catch (error) {
-        console.error('❌ Error creating admin account:', error.message);
+        console.error('Error creating admin account:', error.message);
     }
 }
 
 // ============================================
 // START SERVER
 // ============================================
-const PORT = process.env.PORT || 3000;
+async function startServer() {
+    const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, async () => {
-    console.log('');
-    console.log('═══════════════════════════════════════════');
-    console.log('🚀 SOURCE MARKET SERVER');
-    console.log('═══════════════════════════════════════════');
-    console.log(`📍 Server: http://localhost:${PORT}`);
-    console.log(`🌐 API: http://localhost:${PORT}/api`);
-    console.log('═══════════════════════════════════════════');
-    console.log('');
+    // Auto-create schema + seed if database is empty
+    const initResult = await ensureDatabase();
+    if (initResult.created) {
+        console.log(`Database initialized (${initResult.statements} statements applied)`);
+    }
 
-    // Create admin account
-    await createDefaultAdmin();
-    initTelegramBot();
-});
+    app.listen(PORT, async () => {
+        console.log('\n============================================');
+        console.log('SOURCE MARKET SERVER');
+        console.log(`Server: http://localhost:${PORT}`);
+        console.log(`API: http://localhost:${PORT}/api`);
+        console.log('============================================\n');
+
+        await createDefaultAdmin();
+        initTelegramBot();
+    });
+}
+
+startServer();
