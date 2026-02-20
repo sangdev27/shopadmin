@@ -1,0 +1,86 @@
+﻿<div class="container admin-page">
+    <div class="admin-hero">
+        <div>
+            <h1 class="page-title">Admin Panel</h1>
+            <p class="section-subtitle">Quản trị hệ thống, xử lý giao dịch và nội dung.</p>
+        </div>
+        <div class="admin-hero-badges">
+            <span class="badge badge-info">Hệ thống</span>
+            <span class="badge badge-success">Hoạt động</span>
+        </div>
+    </div>
+
+    <div class="admin-layout">
+        <div class="admin-nav">
+            <div class="tabs admin-tabs">
+                <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+                <button class="tab-btn" data-tab="users">Users</button>
+                <button class="tab-btn tab-secondary" data-tab="deposits">Nạp tiền</button>
+                <button class="tab-btn" data-tab="products">Sản phẩm</button>
+                <button class="tab-btn tab-secondary" data-tab="categories">Danh mục</button>
+                <button class="tab-btn tab-secondary" data-tab="posts">Bài đăng</button>
+                <button class="tab-btn tab-secondary" data-tab="messages">Tin nhắn</button>
+                <button class="tab-btn tab-secondary" data-tab="support">Hỗ trợ</button>
+                <button class="tab-btn" data-tab="notifications">Thông báo</button>
+                <button class="tab-btn tab-secondary" data-tab="logs">Logs</button>
+                <button class="tab-btn tab-secondary" data-tab="storage">Lưu trữ</button>
+                <button class="tab-btn" data-tab="settings">Cài đặt</button>
+                <button class="tab-btn tab-more" id="admin-more-btn" data-tab="more">Khác</button>
+            </div>
+        </div>
+
+        <div class="tab-content admin-panels">
+            <div id="tab-dashboard" class="tab-pane active"></div>
+            <div id="tab-users" class="tab-pane"></div>
+            <div id="tab-deposits" class="tab-pane"></div>
+            <div id="tab-products" class="tab-pane"></div>
+            <div id="tab-categories" class="tab-pane"></div>
+            <div id="tab-posts" class="tab-pane"></div>
+            <div id="tab-messages" class="tab-pane"></div>
+            <div id="tab-support" class="tab-pane"></div>
+            <div id="tab-notifications" class="tab-pane"></div>
+            <div id="tab-logs" class="tab-pane"></div>
+            <div id="tab-storage" class="tab-pane"></div>
+            <div id="tab-settings" class="tab-pane"></div>
+        </div>
+    </div>
+
+    <div id="admin-more-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="section-title">Tab khác</h3>
+                <button class="modal-close" id="admin-more-close">×</button>
+            </div>
+            <div id="admin-more-list" class="admin-more-list"></div>
+        </div>
+    </div>
+
+    <div id="share-data-modal" class="modal">
+        <div class="modal-content share-data-modal">
+            <div class="modal-header">
+                <h3 class="section-title">Chia sẻ dữ liệu về trang JSON trong dự án GitHub</h3>
+                <button class="modal-close" id="share-data-close">×</button>
+            </div>
+            <p class="section-subtitle">
+                Chọn danh mục, copy JSON và dán đè nội dung file <strong>chiase.json</strong> trong repository.
+            </p>
+            <div class="share-data-grid">
+                <div>
+                    <div class="section-header">
+                        <h4 class="section-title">Danh mục dữ liệu</h4>
+                        <span class="badge badge-info">Read-only</span>
+                    </div>
+                    <div id="share-data-list" class="share-data-list"></div>
+                </div>
+                <div>
+                    <div class="section-header">
+                        <h4 class="section-title">JSON xuất ra</h4>
+                        <button id="share-copy-json" class="btn-outline">Copy JSON</button>
+                    </div>
+                    <textarea id="share-json-output" class="share-json-output" rows="14" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
